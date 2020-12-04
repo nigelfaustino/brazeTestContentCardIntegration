@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Appboy_iOS_SDK",
+        "repositoryURL": "https://github.com/Appboy/appboy-ios-sdk",
+        "state": {
+          "branch": null,
+          "revision": "aaa80872f9d2d11415100af2a460541938ba0b30",
+          "version": "3.31.0"
+        }
+      },
+      {
+        "package": "SDWebImage",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
+        "state": {
+          "branch": null,
+          "revision": "e857b78ca4c8afe616b794aeb090d40f4e348072",
+          "version": "5.10.0"
+        }
+      },
+      {
+        "package": "Stevia",
+        "repositoryURL": "https://github.com/freshOS/Stevia",
+        "state": {
+          "branch": null,
+          "revision": "a32dc3c015fe583080f4947edf795bced9a11108",
+          "version": "5.1.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
