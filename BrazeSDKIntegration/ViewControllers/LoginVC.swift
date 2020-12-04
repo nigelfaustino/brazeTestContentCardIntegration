@@ -24,6 +24,13 @@ class LoginVC: UIViewController {
         return button
     }()
     
+    private let customContentCardButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .gray
+        button.setTitle("Customized Content Cards", for: .normal)
+        return button
+    }()
+    
     private let logEventButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .green
@@ -40,24 +47,29 @@ class LoginVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        view.subviews([
-                        loginButton,
-                        contentCardButton,
-                        logEventButton,
-        ])
+        view.subviews(
+            [
+                loginButton,
+                contentCardButton,
+                logEventButton,
+                customContentCardButton
+            ]
+        )
         layoutUI()
         loginButton.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
         contentCardButton.addTarget(self, action: #selector(contentCardPressed), for: .touchUpInside)
         logEventButton.addTarget(self, action: #selector(logEventButtonPressed), for: .touchUpInside)
+        customContentCardButton.addTarget(self, action: #selector(customContentCardPressed), for: .touchUpInside)
     }
     
     private func layoutUI() {
         loginButton.centerInContainer()
         contentCardButton.centerHorizontally()
         contentCardButton.Top == loginButton.Bottom + 10
+        customContentCardButton.Top == contentCardButton.Bottom + 10
+        customContentCardButton.centerHorizontally()
         logEventButton.centerHorizontally()
-        logEventButton.Top == contentCardButton.Bottom + 10
-        changeUserButton.Bottom == loginButton.Top - 10
+        logEventButton.Top == customContentCardButton.Bottom + 10
     }
     
     @objc private func loginPressed() {
@@ -72,19 +84,15 @@ class LoginVC: UIViewController {
         navigationController?.pushViewController(contentCards, animated: true)
     }
     
+    @objc private func customContentCardPressed() {
+        Appboy.sharedInstance()?.requestContentCardsRefresh()
+        let contentCards = CustomContentCardVC()
+        contentCards.title = "Content Cards Title"
+        contentCards.disableUnreadIndicator = true
+        navigationController?.pushViewController(contentCards, animated: true)
+    }
+    
     @objc private func logEventButtonPressed() {
         Appboy.sharedInstance()?.logCustomEvent("Pressed Button")
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
