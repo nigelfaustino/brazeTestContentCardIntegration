@@ -16,6 +16,7 @@
 		0B075B42256DBC050095C926 /* BrazeSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B075B41256DBC050095C926 /* BrazeSDKIntegrationTests.swift */; };
 		0B075B4D256DBC050095C926 /* BrazeSDKIntegrationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B075B4C256DBC050095C926 /* BrazeSDKIntegrationUITests.swift */; };
 		0B2BE274257AA9DA003E6493 /* CustomContentCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BE273257AA9DA003E6493 /* CustomContentCardVC.swift */; };
+		0B2BE27A257AC159003E6493 /* ClassicCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2BE279257AC159003E6493 /* ClassicCardCell.swift */; };
 		0B8E05F025756DDC009BF48E /* AppboyUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0B8E05EF25756DDC009BF48E /* AppboyUI */; };
 		0B8E060425758193009BF48E /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8E060325758193009BF48E /* LoginVC.swift */; };
 		0B8E06102575999A009BF48E /* Stevia in Frameworks */ = {isa = PBXBuildFile; productRef = 0B8E060F2575999A009BF48E /* Stevia */; };
@@ -54,6 +55,7 @@
 		0B075B4C256DBC050095C926 /* BrazeSDKIntegrationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrazeSDKIntegrationUITests.swift; sourceTree = "<group>"; };
 		0B075B4E256DBC050095C926 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B2BE273257AA9DA003E6493 /* CustomContentCardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContentCardVC.swift; sourceTree = "<group>"; };
+		0B2BE279257AC159003E6493 /* ClassicCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassicCardCell.swift; sourceTree = "<group>"; };
 		0B8E060325758193009BF48E /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,6 +109,7 @@
 		0B075B29256DBBFE0095C926 /* BrazeSDKIntegration */ = {
 			isa = PBXGroup;
 			children = (
+				0B2BE278257AC116003E6493 /* View */,
 				0B8E05F725757CAB009BF48E /* ViewControllers */,
 				0B075B2A256DBBFE0095C926 /* AppDelegate.swift */,
 				0B075B2C256DBBFE0095C926 /* SceneDelegate.swift */,
@@ -143,6 +146,14 @@
 				0B075B4E256DBC050095C926 /* Info.plist */,
 			);
 			path = BrazeSDKIntegrationUITests;
+			sourceTree = "<group>";
+		};
+		0B2BE278257AC116003E6493 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0B2BE279257AC159003E6493 /* ClassicCardCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		0B8E05F725757CAB009BF48E /* ViewControllers */ = {
@@ -296,6 +307,7 @@
 				0B075B2B256DBBFE0095C926 /* AppDelegate.swift in Sources */,
 				0B2BE274257AA9DA003E6493 /* CustomContentCardVC.swift in Sources */,
 				0B075B2D256DBBFE0095C926 /* SceneDelegate.swift in Sources */,
+				0B2BE27A257AC159003E6493 /* ClassicCardCell.swift in Sources */,
 				0B075B2F256DBBFE0095C926 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

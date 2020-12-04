@@ -74,6 +74,8 @@ class LoginVC: UIViewController {
     
     @objc private func loginPressed() {
         Appboy.sharedInstance()?.changeUser("YOUR_USER_ID")
+        let count = Appboy.sharedInstance()?.contentCardsController.unviewedContentCardCount() ?? 0
+        print(count)
     }
         
     @objc private func contentCardPressed() {
@@ -87,8 +89,7 @@ class LoginVC: UIViewController {
     @objc private func customContentCardPressed() {
         Appboy.sharedInstance()?.requestContentCardsRefresh()
         let contentCards = CustomContentCardVC()
-        contentCards.title = "Content Cards Title"
-        contentCards.disableUnreadIndicator = true
+        contentCards.title = "Customized Content Cards"
         navigationController?.pushViewController(contentCards, animated: true)
     }
     

@@ -18,6 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Appboy.start(withApiKey: "fc5dd8a8-83fe-4941-bbeb-1f82dd64250d", in:application, withLaunchOptions:launchOptions)
         return true
     }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        UIApplication.shared.applicationIconBadgeNumber =
+          Appboy.sharedInstance()?.contentCardsController.unviewedContentCardCount() ?? 0
+    }
+
 
     // MARK: UISceneSession Lifecycle
 
