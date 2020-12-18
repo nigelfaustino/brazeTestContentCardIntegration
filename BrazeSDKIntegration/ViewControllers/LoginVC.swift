@@ -17,6 +17,13 @@ class LoginVC: UIViewController {
         return button
     }()
     
+    private let textfield: UITextField = {
+        let textfield = UITextField()
+        textfield.layer.borderWidth = 1
+        textfield.layer.borderColor = UIColor.black.cgColor
+        return textfield
+    }()
+    
     private let contentCardButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .red
@@ -49,6 +56,7 @@ class LoginVC: UIViewController {
         super.viewDidLayoutSubviews()
         view.subviews(
             [
+                textfield,
                 loginButton,
                 contentCardButton,
                 logEventButton,
@@ -63,6 +71,8 @@ class LoginVC: UIViewController {
     }
     
     private func layoutUI() {
+        textfield.centerHorizontally().left(10).right(10)
+        textfield.Bottom == loginButton.Top - 10
         loginButton.centerInContainer()
         contentCardButton.centerHorizontally()
         contentCardButton.Top == loginButton.Bottom + 10
@@ -73,9 +83,19 @@ class LoginVC: UIViewController {
     }
     
     @objc private func loginPressed() {
-        Appboy.sharedInstance()?.changeUser("YOUR_USER_ID")
+        var userID = "YOUR_USER_ID"
+        if let text = textfield.text, !text.isEmpty {
+            userID = text
+            textfield.text = ""
+        }
+        Appboy.sharedInstance()?.changeUser(userID)
         let count = Appboy.sharedInstance()?.contentCardsController.unviewedContentCardCount() ?? 0
         print(count)
+        let alert = UIAlertController(title: "Changed User", message: "\(String(describing: Appboy.sharedInstance()?.user.userID))", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+        NSLog("The \"OK\" alert occured.")
+        }))
+        present(alert, animated: true, completion: nil)
     }
         
     @objc private func contentCardPressed() {
