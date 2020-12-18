@@ -89,7 +89,7 @@ class LoginVC: UIViewController {
     @objc private func customContentCardPressed() {
         Appboy.sharedInstance()?.requestContentCardsRefresh()
         let contentCards = CustomContentCardVC()
-        contentCards.title = "Customized Content Cards"
+        contentCards.title = "Filtered Content Cards"
         navigationController?.pushViewController(contentCards, animated: true)
     }
     
