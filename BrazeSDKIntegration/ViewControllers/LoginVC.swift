@@ -20,6 +20,7 @@ class LoginVC: UIViewController {
     private let textfield: UITextField = {
         let textfield = UITextField()
         textfield.layer.borderWidth = 1
+        textfield.placeholder = "Change user ID"
         textfield.layer.borderColor = UIColor.black.cgColor
         return textfield
     }()
