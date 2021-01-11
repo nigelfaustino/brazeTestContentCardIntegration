@@ -64,6 +64,8 @@ class LoginVC: UIViewController {
                 customContentCardButton
             ]
         )
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
         layoutUI()
         loginButton.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
         contentCardButton.addTarget(self, action: #selector(contentCardPressed), for: .touchUpInside)
@@ -81,6 +83,10 @@ class LoginVC: UIViewController {
         customContentCardButton.centerHorizontally()
         logEventButton.centerHorizontally()
         logEventButton.Top == customContentCardButton.Bottom + 10
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     @objc private func loginPressed() {
@@ -116,5 +122,6 @@ class LoginVC: UIViewController {
     
     @objc private func logEventButtonPressed() {
         Appboy.sharedInstance()?.logCustomEvent("Pressed Button")
+        Appboy.sharedInstance()?.user.addAlias("testAlias", withLabel: "test")
     }
 }

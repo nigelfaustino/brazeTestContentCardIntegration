@@ -7,15 +7,32 @@
 
 import UIKit
 import AppboyKit
+import UserNotificationsUI
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         Appboy.start(withApiKey: "fc5dd8a8-83fe-4941-bbeb-1f82dd64250d", in:application, withLaunchOptions:launchOptions)
+        let center = UNUserNotificationCenter.current()
+        var options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        if #available(iOS 12.0, *) {
+          options = UNAuthorizationOptions(rawValue: options.rawValue | UNAuthorizationOptions.provisional.rawValue)
+        }
+        center.requestAuthorization(options: options) { (granted, error) in
+          Appboy.sharedInstance()?.pushAuthorization(fromUserNotificationCenter: granted)
+        }
+        center.delegate = self
+        center.setNotificationCategories(ABKPushUtils.getAppboyUNNotificationCategorySet())
+        UIApplication.shared.registerForRemoteNotifications()
+
+        // Sample usage of unsafeInstance.  Note: startWithApiKey: MUST be called before calling unsafeInstance or an exception will be thrown.
+        // Note: this is a nonoptional alternative to sharedInstance()
+        Appboy.unsafeInstance().user.setCustomAttributeWithKey("unsafeCustomAttributeSwift", andStringValue: "unsafeCustomAttributeSwift value")
+
         return true
     }
     
@@ -23,6 +40,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.applicationIconBadgeNumber =
           Appboy.sharedInstance()?.contentCardsController.unviewedContentCardCount() ?? 0
     }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Appboy.sharedInstance()?.registerDeviceToken(deviceToken)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        Appboy.sharedInstance()?.register(application,
+                                                    didReceiveRemoteNotification: userInfo,
+                                                    fetchCompletionHandler: completionHandler)
+        
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+      Appboy.sharedInstance()?.userNotificationCenter(center, didReceive: response, withCompletionHandler: completionHandler)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                    willPresent notification: UNNotification,
+          withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([UNNotificationPresentationOptions.sound, UNNotificationPresentationOptions.badge, UNNotificationPresentationOptions.banner])
+    }
+
+
+
 
 
     // MARK: UISceneSession Lifecycle
