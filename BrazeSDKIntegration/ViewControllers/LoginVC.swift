@@ -40,6 +40,14 @@ class LoginVC: UIViewController {
         return button
     }()
     
+    private let filterTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.layer.borderWidth = 1
+        textfield.placeholder = "Content Card Filter"
+        textfield.layer.borderColor = UIColor.black.cgColor
+        return textfield
+    }()
+    
     private let customContentCardButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .gray
@@ -57,8 +65,6 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidLayoutSubviews() {
@@ -70,6 +76,7 @@ class LoginVC: UIViewController {
                 contentCardButton,
                 eventTextfield,
                 logEventButton,
+                filterTextField,
                 customContentCardButton
             ]
         )
@@ -89,7 +96,9 @@ class LoginVC: UIViewController {
         loginButton.centerHorizontally()
         contentCardButton.centerHorizontally()
         contentCardButton.Top == loginButton.Bottom + 10
-        customContentCardButton.Top == contentCardButton.Bottom + 10
+        filterTextField.Top == contentCardButton.Bottom + 10
+        filterTextField.centerHorizontally().left(10).right(10)
+        customContentCardButton.Top == filterTextField.Bottom + 10
         customContentCardButton.centerHorizontally()
         eventTextfield.centerHorizontally().left(10).right(10)
         eventTextfield.Top == customContentCardButton.Bottom + 10
@@ -112,7 +121,7 @@ class LoginVC: UIViewController {
         print(count)
         let alert = UIAlertController(title: "Changed User", message: "\(String(describing: Appboy.sharedInstance()?.user.userID))", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-        NSLog("The \"OK\" alert occured.")
+            NSLog("The \"OK\" alert occured.")
         }))
         present(alert, animated: true, completion: nil)
     }
@@ -135,6 +144,12 @@ class LoginVC: UIViewController {
     @objc private func logEventButtonPressed() {
         guard let event = eventTextfield.text else { return }
         Appboy.sharedInstance()?.logCustomEvent(event)
+        let alert = UIAlertController(title: "Logged Event", message: "Logged \(event)", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            NSLog("The \"OK\" alert occured.")
+        }))
+        present(alert, animated: true, completion: nil)
+        eventTextfield.text = ""
         Appboy.sharedInstance()?.user.addAlias("testAlias", withLabel: "test")
     }
 }
