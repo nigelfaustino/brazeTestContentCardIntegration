@@ -32,6 +32,22 @@ class LoginVC: UIViewController {
         textfield.layer.borderColor = UIColor.black.cgColor
         return textfield
     }()
+    
+    private let attributeKeyTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.layer.borderWidth = 1
+        textfield.placeholder = "Custom Attribute Key"
+        textfield.layer.borderColor = UIColor.black.cgColor
+        return textfield
+    }()
+    
+    private let attributeValueTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.layer.borderWidth = 1
+        textfield.placeholder = "Custom Attribute Value"
+        textfield.layer.borderColor = UIColor.black.cgColor
+        return textfield
+    }()
 
     private let contentCardButton: UIButton = {
         let button = UIButton()
@@ -59,6 +75,13 @@ class LoginVC: UIViewController {
         let button = UIButton()
         button.backgroundColor = .green
         button.setTitle("Log Event", for: .normal)
+        return button
+    }()
+    
+    private let logAttributeButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .black
+        button.setTitle("Log Attribute", for: .normal)
         return button
     }()
     
@@ -104,7 +127,10 @@ class LoginVC: UIViewController {
                 customContentCardButton,
                 addUserAliasButton,
                 userAliasTextField,
-                userAliasLabelTextField
+                userAliasLabelTextField,
+                logAttributeButton,
+                attributeKeyTextField,
+                attributeValueTextField
             ]
         )
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -115,6 +141,7 @@ class LoginVC: UIViewController {
         logEventButton.addTarget(self, action: #selector(logEventButtonPressed), for: .touchUpInside)
         customContentCardButton.addTarget(self, action: #selector(customContentCardPressed), for: .touchUpInside)
         addUserAliasButton.addTarget(self, action: #selector(addAliasButtonPressed), for: .touchUpInside)
+        logAttributeButton.addTarget(self, action: #selector(logAttributeButtonPressed), for: .touchUpInside)
     }
     
 //PRIVATE
@@ -130,8 +157,14 @@ class LoginVC: UIViewController {
         filterTextField.centerHorizontally().left(10).right(10)
         customContentCardButton.Top == filterTextField.Bottom + 10
         customContentCardButton.centerHorizontally().left(10).right(10)
+        attributeKeyTextField.Top == customContentCardButton.Bottom + 10
+        attributeKeyTextField.left(10).right(10)
+        attributeValueTextField.Top == attributeKeyTextField.Bottom + 10
+        attributeValueTextField.left(10).right(10)
+        logAttributeButton.Top == attributeValueTextField.Bottom + 10
+        logAttributeButton.left(10).right(10)
         eventTextfield.centerHorizontally().left(10).right(10)
-        eventTextfield.Top == customContentCardButton.Bottom + 10
+        eventTextfield.Top == logAttributeButton.Bottom + 10
         logEventButton.centerHorizontally().left(10).right(10)
         logEventButton.Top == eventTextfield.Bottom + 10
         userAliasTextField.Top == logEventButton.Bottom + 10
@@ -178,6 +211,18 @@ class LoginVC: UIViewController {
         let contentCards = CustomContentCardVC(filtered)
         contentCards.title = "Filtered Content Cards"
         navigationController?.pushViewController(contentCards, animated: true)
+    }
+    
+    @objc private func logAttributeButtonPressed() {
+        guard let key = attributeKeyTextField.text, let value = attributeValueTextField.text else { return }
+        Appboy.sharedInstance()?.user.setCustomAttributeWithKey(key, andStringValue: value)
+        let alert = UIAlertController(title: "Set attribute", message: "Set custom attribute \(key) with value \(value)", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            NSLog("The \"OK\" alert occured.")
+        }))
+        present(alert, animated: true, completion: nil)
+        attributeKeyTextField.text = ""
+        attributeValueTextField.text = ""
     }
     
     @objc private func logEventButtonPressed() {
