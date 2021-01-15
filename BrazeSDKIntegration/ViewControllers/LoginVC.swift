@@ -87,12 +87,13 @@ class LoginVC: UIViewController {
 //
     
     private let tableView: UITableView = UITableView()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         tableView.dataSource = self
         tableView.register(LoginCell.self, forCellReuseIdentifier: LoginCell.description())
+        tableView.register(UserAnalyticsCell.self, forCellReuseIdentifier: UserAnalyticsCell.description())
     }
     
     override func viewDidLayoutSubviews() {
@@ -233,15 +234,31 @@ class LoginVC: UIViewController {
 //    }
 }
 
-extension LoginVC: UITableViewDataSource {
+extension LoginVC: UITableViewDataSource, TableviewCellAlertProtocol {
+    func renderAlertViewController(_ title: String, _ message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            NSLog("The \"OK\" alert occured.")
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: LoginCell.description()) as! LoginCell
+        let cell: UITableViewCell = {
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: LoginCell.description()) as! LoginCell
+                cell.delegate = self
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: UserAnalyticsCell.description()) as! UserAnalyticsCell
+                cell.delegate = self
+                return cell
+            }
+        }()
         return cell
     }
-    
-    
 }

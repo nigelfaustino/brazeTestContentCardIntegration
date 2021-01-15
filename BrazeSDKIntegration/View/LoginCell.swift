@@ -7,8 +7,10 @@
 
 import UIKit
 import Stevia
+import AppboyUI
 
 class LoginCell: UITableViewCell {
+    weak var delegate: TableviewCellAlertProtocol?
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "User Identifiers"
@@ -25,6 +27,7 @@ class LoginCell: UITableViewCell {
     
     private let idTextField: UITextField = {
         let textfield = UITextField()
+        textfield.autocorrectionType = .no
         textfield.layer.borderWidth = 1
         textfield.textAlignment = .center
         textfield.placeholder = "Change user ID"
@@ -34,6 +37,7 @@ class LoginCell: UITableViewCell {
     
     private let userAliasTextField: UITextField = {
         let textfield = UITextField()
+        textfield.autocorrectionType = .no
         textfield.layer.borderWidth = 1
         textfield.textAlignment = .center
         textfield.placeholder = "User Alias"
@@ -43,6 +47,7 @@ class LoginCell: UITableViewCell {
 
     private let userAliasLabelTextField: UITextField = {
         let textfield = UITextField()
+        textfield.autocorrectionType = .no
         textfield.layer.borderWidth = 1
         textfield.textAlignment = .center
         textfield.placeholder = "User Alias Label"
@@ -53,7 +58,7 @@ class LoginCell: UITableViewCell {
     private let addUserAliasButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .darkGray
-        button.setTitle("Add alias", for: .normal)
+        button.setTitle("Add Alias", for: .normal)
         return button
     }()
 
@@ -89,6 +94,27 @@ class LoginCell: UITableViewCell {
         userAliasLabelTextField.left(10).right(10)
         addUserAliasButton.Top == userAliasLabelTextField.Bottom + 10
         addUserAliasButton.centerHorizontally().left(10).right(10).bottom(10)
-
+        loginButton.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
+        addUserAliasButton.addTarget(self, action: #selector(addAliasButtonPressed), for: .touchUpInside)
+    }
+    
+    @objc private func loginPressed() {
+        var userID = "YOUR_USER_ID"
+        if let text = idTextField.text, !text.isEmpty {
+            userID = text
+            idTextField.text = ""
+        }
+        Appboy.sharedInstance()?.changeUser(userID)
+        let count = Appboy.sharedInstance()?.contentCardsController.unviewedContentCardCount() ?? 0
+        print(count)
+        delegate?.renderAlertViewController("Changed User", "ID changed to \(Appboy.sharedInstance()?.user.userID ?? "No external id")")
+    }
+    
+    @objc private func addAliasButtonPressed() {
+        guard let text = userAliasTextField.text else { return }
+        Appboy.sharedInstance()?.user.addAlias(text, withLabel: userAliasLabelTextField.text ?? "")
+        delegate?.renderAlertViewController("Added User Alias", "Added \(text) as alias with label \(userAliasLabelTextField.text ?? "")")
+        userAliasTextField.text = ""
+        userAliasLabelTextField.text = ""
     }
 }
