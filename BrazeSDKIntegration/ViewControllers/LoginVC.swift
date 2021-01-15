@@ -84,8 +84,9 @@ class LoginVC: UIViewController {
     
     private func layoutUI() {
         idTextField.centerHorizontally().left(10).right(10)
-        idTextField.Bottom == loginButton.Top - 10
-        loginButton.centerInContainer()
+        idTextField.Top == view.safeAreaLayoutGuide.Top + 10
+        loginButton.Top == idTextField.Bottom + 10
+        loginButton.centerHorizontally()
         contentCardButton.centerHorizontally()
         contentCardButton.Top == loginButton.Bottom + 10
         customContentCardButton.Top == contentCardButton.Bottom + 10
