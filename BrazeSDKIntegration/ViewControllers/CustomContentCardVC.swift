@@ -11,6 +11,16 @@ import AppboyUI
 class CustomContentCardVC: UITableViewController {
     
     private var contentCards: [ABKContentCard] = []
+    private let filter: String
+    
+    init(_ filterText: String) {
+        self.filter = filterText.isEmpty ? "filtered" : filterText
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,13 +35,11 @@ class CustomContentCardVC: UITableViewController {
         guard let updateSuccessful = notification.userInfo?[ABKContentCardsProcessedIsSuccessfulKey] as? Bool else { return }
         if updateSuccessful {
             // Get an array containing only cards that have the "filtered" feed type set in their extras.
-            if let filteredArray = getCards(forFeedType: "filtered") {
+            if let filteredArray = getCards(forFeedType: filter) {
                 contentCards = filteredArray
                 tableView.reloadData()
 //                NSLog("Got filtered array of length: %@",filteredArray.count)
             }
-
-            // Pass filteredArray to your UI layer for display.
         }
     }
 

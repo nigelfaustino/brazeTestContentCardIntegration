@@ -135,8 +135,11 @@ class LoginVC: UIViewController {
     }
     
     @objc private func customContentCardPressed() {
+        guard let filtered = filterTextField.text else {
+            return
+        }
         Appboy.sharedInstance()?.requestContentCardsRefresh()
-        let contentCards = CustomContentCardVC()
+        let contentCards = CustomContentCardVC(filtered)
         contentCards.title = "Filtered Content Cards"
         navigationController?.pushViewController(contentCards, animated: true)
     }
