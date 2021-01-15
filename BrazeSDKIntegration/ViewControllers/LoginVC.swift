@@ -62,6 +62,30 @@ class LoginVC: UIViewController {
         return button
     }()
     
+    private let userAliasTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.layer.borderWidth = 1
+        textfield.placeholder = "User Alias"
+        textfield.layer.borderColor = UIColor.black.cgColor
+        return textfield
+    }()
+    
+    private let userAliasLabelTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.layer.borderWidth = 1
+        textfield.placeholder = "User Alias Label"
+        textfield.layer.borderColor = UIColor.black.cgColor
+        return textfield
+    }()
+
+    
+    private let addUserAliasButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .darkGray
+        button.setTitle("Add alias", for: .normal)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -77,7 +101,10 @@ class LoginVC: UIViewController {
                 eventTextfield,
                 logEventButton,
                 filterTextField,
-                customContentCardButton
+                customContentCardButton,
+                addUserAliasButton,
+                userAliasTextField,
+                userAliasLabelTextField
             ]
         )
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -87,23 +114,32 @@ class LoginVC: UIViewController {
         contentCardButton.addTarget(self, action: #selector(contentCardPressed), for: .touchUpInside)
         logEventButton.addTarget(self, action: #selector(logEventButtonPressed), for: .touchUpInside)
         customContentCardButton.addTarget(self, action: #selector(customContentCardPressed), for: .touchUpInside)
+        addUserAliasButton.addTarget(self, action: #selector(addAliasButtonPressed), for: .touchUpInside)
     }
+    
+//PRIVATE
     
     private func layoutUI() {
         idTextField.centerHorizontally().left(10).right(10)
         idTextField.Top == view.safeAreaLayoutGuide.Top + 10
         loginButton.Top == idTextField.Bottom + 10
-        loginButton.centerHorizontally()
-        contentCardButton.centerHorizontally()
+        loginButton.centerHorizontally().left(10).right(10)
+        contentCardButton.centerHorizontally().left(10).right(10)
         contentCardButton.Top == loginButton.Bottom + 10
         filterTextField.Top == contentCardButton.Bottom + 10
         filterTextField.centerHorizontally().left(10).right(10)
         customContentCardButton.Top == filterTextField.Bottom + 10
-        customContentCardButton.centerHorizontally()
+        customContentCardButton.centerHorizontally().left(10).right(10)
         eventTextfield.centerHorizontally().left(10).right(10)
         eventTextfield.Top == customContentCardButton.Bottom + 10
-        logEventButton.centerHorizontally()
+        logEventButton.centerHorizontally().left(10).right(10)
         logEventButton.Top == eventTextfield.Bottom + 10
+        userAliasTextField.Top == logEventButton.Bottom + 10
+        userAliasTextField.left(10).right(10)
+        userAliasLabelTextField.Top == userAliasTextField.Bottom + 10
+        userAliasLabelTextField.left(10).right(10)
+        addUserAliasButton.Top == userAliasLabelTextField.Bottom + 10
+        addUserAliasButton.centerHorizontally().left(10).right(10)
     }
     
     @objc private func dismissKeyboard() {
@@ -119,7 +155,7 @@ class LoginVC: UIViewController {
         Appboy.sharedInstance()?.changeUser(userID)
         let count = Appboy.sharedInstance()?.contentCardsController.unviewedContentCardCount() ?? 0
         print(count)
-        let alert = UIAlertController(title: "Changed User", message: "\(String(describing: Appboy.sharedInstance()?.user.userID))", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Changed User", message: "ID changed to \(Appboy.sharedInstance()?.user.userID ?? "No external id")", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
             NSLog("The \"OK\" alert occured.")
         }))
@@ -153,6 +189,17 @@ class LoginVC: UIViewController {
         }))
         present(alert, animated: true, completion: nil)
         eventTextfield.text = ""
-        Appboy.sharedInstance()?.user.addAlias("testAlias", withLabel: "test")
+    }
+    
+    @objc private func addAliasButtonPressed() {
+        guard let text = userAliasTextField.text else { return }
+        Appboy.sharedInstance()?.user.addAlias(text, withLabel: userAliasLabelTextField.text ?? "")
+        let alert = UIAlertController(title: "Added User Alias", message: "Added \(text) as alias with label \(userAliasLabelTextField.text ?? "")", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+            NSLog("The \"OK\" alert occured.")
+        }))
+        present(alert, animated: true, completion: nil)
+        userAliasTextField.text = ""
+        userAliasLabelTextField.text = ""
     }
 }
