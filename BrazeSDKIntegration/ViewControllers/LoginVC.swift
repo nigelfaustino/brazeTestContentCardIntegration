@@ -17,14 +17,22 @@ class LoginVC: UIViewController {
         return button
     }()
     
-    private let textfield: UITextField = {
+    private let idTextField: UITextField = {
         let textfield = UITextField()
         textfield.layer.borderWidth = 1
         textfield.placeholder = "Change user ID"
         textfield.layer.borderColor = UIColor.black.cgColor
         return textfield
     }()
-    
+
+    private let eventTextfield: UITextField = {
+        let textfield = UITextField()
+        textfield.layer.borderWidth = 1
+        textfield.placeholder = "Custom Event"
+        textfield.layer.borderColor = UIColor.black.cgColor
+        return textfield
+    }()
+
     private let contentCardButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .red
@@ -57,9 +65,10 @@ class LoginVC: UIViewController {
         super.viewDidLayoutSubviews()
         view.subviews(
             [
-                textfield,
+                idTextField,
                 loginButton,
                 contentCardButton,
+                eventTextfield,
                 logEventButton,
                 customContentCardButton
             ]
@@ -74,15 +83,17 @@ class LoginVC: UIViewController {
     }
     
     private func layoutUI() {
-        textfield.centerHorizontally().left(10).right(10)
-        textfield.Bottom == loginButton.Top - 10
+        idTextField.centerHorizontally().left(10).right(10)
+        idTextField.Bottom == loginButton.Top - 10
         loginButton.centerInContainer()
         contentCardButton.centerHorizontally()
         contentCardButton.Top == loginButton.Bottom + 10
         customContentCardButton.Top == contentCardButton.Bottom + 10
         customContentCardButton.centerHorizontally()
+        eventTextfield.centerHorizontally().left(10).right(10)
+        eventTextfield.Top == customContentCardButton.Bottom + 10
         logEventButton.centerHorizontally()
-        logEventButton.Top == customContentCardButton.Bottom + 10
+        logEventButton.Top == eventTextfield.Bottom + 10
     }
     
     @objc private func dismissKeyboard() {
@@ -91,9 +102,9 @@ class LoginVC: UIViewController {
     
     @objc private func loginPressed() {
         var userID = "YOUR_USER_ID"
-        if let text = textfield.text, !text.isEmpty {
+        if let text = idTextField.text, !text.isEmpty {
             userID = text
-            textfield.text = ""
+            idTextField.text = ""
         }
         Appboy.sharedInstance()?.changeUser(userID)
         let count = Appboy.sharedInstance()?.contentCardsController.unviewedContentCardCount() ?? 0
@@ -121,7 +132,8 @@ class LoginVC: UIViewController {
     }
     
     @objc private func logEventButtonPressed() {
-        Appboy.sharedInstance()?.logCustomEvent("Pressed Button")
+        guard let event = eventTextfield.text else { return }
+        Appboy.sharedInstance()?.logCustomEvent(event)
         Appboy.sharedInstance()?.user.addAlias("testAlias", withLabel: "test")
     }
 }
