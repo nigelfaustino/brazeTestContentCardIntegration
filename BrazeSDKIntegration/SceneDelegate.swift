@@ -24,7 +24,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            let navController = UINavigationController(rootViewController: LoginVC())
+            let tabController = UITabBarController()
+            tabController.addChild(LoginVC())
+            let navController = UINavigationController(rootViewController: tabController)
 
             window.rootViewController = navController
             self.window = window
