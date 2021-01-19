@@ -25,33 +25,21 @@ class LoginCell: UITableViewCell {
         return button
     }()
     
-    private let idTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.autocorrectionType = .no
-        textfield.layer.borderWidth = 1
-        textfield.textAlignment = .center
-        textfield.placeholder = "Change user ID"
-        textfield.layer.borderColor = UIColor.black.cgColor
+    private let idTextField: CustomTextField = {
+        let textfield = CustomTextField()
+        textfield.placeholder = "Change User ID"
         return textfield
     }()
     
-    private let userAliasTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.autocorrectionType = .no
-        textfield.layer.borderWidth = 1
-        textfield.textAlignment = .center
+    private let userAliasTextField: CustomTextField = {
+        let textfield = CustomTextField()
         textfield.placeholder = "User Alias"
-        textfield.layer.borderColor = UIColor.black.cgColor
         return textfield
     }()
 
-    private let userAliasLabelTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.autocorrectionType = .no
-        textfield.layer.borderWidth = 1
-        textfield.textAlignment = .center
+    private let userAliasLabelTextField: CustomTextField = {
+        let textfield = CustomTextField()
         textfield.placeholder = "User Alias Label"
-        textfield.layer.borderColor = UIColor.black.cgColor
         return textfield
     }()
 
@@ -74,7 +62,13 @@ class LoginCell: UITableViewCell {
     }
 
     private func commonInit() {
+        layoutViews()
         backgroundColor = .white
+        loginButton.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
+        addUserAliasButton.addTarget(self, action: #selector(addAliasButtonPressed), for: .touchUpInside)
+    }
+    
+    private func layoutViews() {
         subviews([
             titleLabel,
             loginButton,
@@ -94,8 +88,6 @@ class LoginCell: UITableViewCell {
         userAliasLabelTextField.left(10).right(10)
         addUserAliasButton.Top == userAliasLabelTextField.Bottom + 10
         addUserAliasButton.centerHorizontally().left(10).right(10).bottom(10)
-        loginButton.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
-        addUserAliasButton.addTarget(self, action: #selector(addAliasButtonPressed), for: .touchUpInside)
     }
     
     @objc private func loginPressed() {

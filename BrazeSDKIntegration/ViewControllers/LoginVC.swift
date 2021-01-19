@@ -90,6 +90,7 @@ class LoginVC: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "User Profile"
         view.backgroundColor = .white
         tableView.dataSource = self
         tableView.register(LoginCell.self, forCellReuseIdentifier: LoginCell.description())

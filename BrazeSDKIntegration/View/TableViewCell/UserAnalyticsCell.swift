@@ -18,34 +18,21 @@ class UserAnalyticsCell: UITableViewCell {
         return label
     }()
 
-    private let eventTextfield: UITextField = {
-        let textfield = UITextField()
-        textfield.autocorrectionType = .no
-        textfield.textAlignment = .center
-        textfield.layer.borderWidth = 1
+    private let eventTextfield: CustomTextField = {
+        let textfield = CustomTextField()
         textfield.placeholder = "Custom Event"
-        textfield.layer.borderColor = UIColor.black.cgColor
         return textfield
     }()
 
-    private let attributeKeyTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.autocorrectionType = .no
-        textfield.layer.borderWidth = 1
-        textfield.autocorrectionType = .no
-        textfield.textAlignment = .center
+    private let attributeKeyTextField: CustomTextField = {
+        let textfield = CustomTextField()
         textfield.placeholder = "Custom Attribute Key"
-        textfield.layer.borderColor = UIColor.black.cgColor
         return textfield
     }()
 
-    private let attributeValueTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.layer.borderWidth = 1
-        textfield.autocorrectionType = .no
-        textfield.textAlignment = .center
+    private let attributeValueTextField: CustomTextField = {
+        let textfield = CustomTextField()
         textfield.placeholder = "Custom Attribute Value"
-        textfield.layer.borderColor = UIColor.black.cgColor
         return textfield
     }()
 
@@ -60,7 +47,6 @@ class UserAnalyticsCell: UITableViewCell {
         let button = UIButton()
         button.backgroundColor = .black
         button.setTitle("Log Attribute", for: .normal)
-        button.addTarget(self, action: #selector(logAttributeButtonPressed), for: .touchUpInside)
         return button
     }()
 
@@ -76,6 +62,12 @@ class UserAnalyticsCell: UITableViewCell {
     
     private func commonInit() {
         backgroundColor = .white
+        layoutViews()
+        logEventButton.addTarget(self, action: #selector(logEventButtonPressed), for: .touchUpInside)
+        logAttributeButton.addTarget(self, action: #selector(logAttributeButtonPressed), for: .touchUpInside)
+    }
+    
+    private func layoutViews() {
         subviews([
             titleLabel,
             eventTextfield,
@@ -95,7 +87,6 @@ class UserAnalyticsCell: UITableViewCell {
         attributeValueTextField.left(10).right(10)
         logAttributeButton.Top == attributeValueTextField.Bottom + 10
         logAttributeButton.left(10).right(10).bottom(10)
-        logEventButton.addTarget(self, action: #selector(logEventButtonPressed), for: .touchUpInside)
     }
     
     @objc private func logAttributeButtonPressed() {

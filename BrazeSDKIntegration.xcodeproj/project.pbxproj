@@ -23,6 +23,7 @@
 		0BB344F225B24FFF00F64F8A /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB344F125B24FFF00F64F8A /* LoginCell.swift */; };
 		0BB344F725B2532600F64F8A /* UserAnalyticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB344F625B2532600F64F8A /* UserAnalyticsCell.swift */; };
 		0BB344FC25B25AFC00F64F8A /* TableviewCellAlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB344FB25B25AFC00F64F8A /* TableviewCellAlertProtocol.swift */; };
+		0BB3450525B2624C00F64F8A /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3450425B2624C00F64F8A /* CustomTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		0BB344F125B24FFF00F64F8A /* LoginCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
 		0BB344F625B2532600F64F8A /* UserAnalyticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAnalyticsCell.swift; sourceTree = "<group>"; };
 		0BB344FB25B25AFC00F64F8A /* TableviewCellAlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableviewCellAlertProtocol.swift; sourceTree = "<group>"; };
+		0BB3450425B2624C00F64F8A /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,10 +161,9 @@
 		0B2BE278257AC116003E6493 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				0B2BE279257AC159003E6493 /* ClassicCardCell.swift */,
-				0BB344F125B24FFF00F64F8A /* LoginCell.swift */,
-				0BB344F625B2532600F64F8A /* UserAnalyticsCell.swift */,
+				0BB3450325B261CA00F64F8A /* TableViewCell */,
 				0BB344FB25B25AFC00F64F8A /* TableviewCellAlertProtocol.swift */,
+				0BB3450425B2624C00F64F8A /* CustomTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -174,6 +175,16 @@
 				0B2BE273257AA9DA003E6493 /* CustomContentCardVC.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		0BB3450325B261CA00F64F8A /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				0BB344F625B2532600F64F8A /* UserAnalyticsCell.swift */,
+				0BB344F125B24FFF00F64F8A /* LoginCell.swift */,
+				0B2BE279257AC159003E6493 /* ClassicCardCell.swift */,
+			);
+			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -318,6 +329,7 @@
 				0BB344F725B2532600F64F8A /* UserAnalyticsCell.swift in Sources */,
 				0BB344F225B24FFF00F64F8A /* LoginCell.swift in Sources */,
 				0BB344FC25B25AFC00F64F8A /* TableviewCellAlertProtocol.swift in Sources */,
+				0BB3450525B2624C00F64F8A /* CustomTextField.swift in Sources */,
 				0B075B2B256DBBFE0095C926 /* AppDelegate.swift in Sources */,
 				0B2BE274257AA9DA003E6493 /* CustomContentCardVC.swift in Sources */,
 				0B075B2D256DBBFE0095C926 /* SceneDelegate.swift in Sources */,
