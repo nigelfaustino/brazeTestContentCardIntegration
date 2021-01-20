@@ -20,6 +20,12 @@ class LoginVC: UIViewController {
         tableView.register(LoginCell.self, forCellReuseIdentifier: LoginCell.description())
         tableView.register(UserAnalyticsCell.self, forCellReuseIdentifier: UserAnalyticsCell.description())
         tableView.register(ContentCardDisplayCell.self, forCellReuseIdentifier: ContentCardDisplayCell.description())
+        tableView.register(IAMCell.self, forCellReuseIdentifier: IAMCell.description())
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+        target: self,
+        action: #selector(dismissMyKeyboard))
+        view.addGestureRecognizer(tap)
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -27,9 +33,16 @@ class LoginVC: UIViewController {
         view.subviews(tableView)
         tableView.left(0).right(0).top(0).bottom(0)
     }
+    
+    @objc func dismissMyKeyboard(){
+    //endEditing causes the view (or one of its embedded text fields) to resign the first responder status.
+    //In short- Dismiss the active keyboard.
+    view.endEditing(true)
+    }
+
 }
 
-extension LoginVC: UITableViewDataSource, TableviewCellAlertProtocol, ContentCardCellDelegate {
+extension LoginVC: UITableViewDataSource, TableviewCellAlertProtocol, ContentCardCellDelegate, UIScrollViewDelegate {
     func presentContentCardPressed(_ filtered: Bool, _ text: String?) {
         Appboy.sharedInstance()?.requestContentCardsRefresh()
         if !filtered {
@@ -53,7 +66,7 @@ extension LoginVC: UITableViewDataSource, TableviewCellAlertProtocol, ContentCar
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -66,13 +79,20 @@ extension LoginVC: UITableViewDataSource, TableviewCellAlertProtocol, ContentCar
                 let cell = tableView.dequeueReusableCell(withIdentifier: UserAnalyticsCell.description()) as! UserAnalyticsCell
                 cell.delegate = self
                 return cell
-            } else {
+            } else if indexPath.row == 2 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: ContentCardDisplayCell.description()) as! ContentCardDisplayCell
                 cell.delegate = self
                 return cell
-
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: IAMCell.description()) as! IAMCell
+                return cell
             }
         }()
+        cell.selectionStyle = .none
         return cell
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
 }

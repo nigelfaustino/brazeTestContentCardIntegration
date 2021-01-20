@@ -17,22 +17,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         Appboy.start(withApiKey: "fc5dd8a8-83fe-4941-bbeb-1f82dd64250d", in:application, withLaunchOptions:launchOptions)
-        let center = UNUserNotificationCenter.current()
-        var options: UNAuthorizationOptions = [.alert, .sound, .badge]
-        if #available(iOS 12.0, *) {
-          options = UNAuthorizationOptions(rawValue: options.rawValue | UNAuthorizationOptions.provisional.rawValue)
+        if #available(iOS 10, *) {
+            let center = UNUserNotificationCenter.current()
+            center.delegate = self
+            var options: UNAuthorizationOptions = [.alert, .sound, .badge]
+            if #available(iOS 12.0, *) {
+                options = UNAuthorizationOptions(rawValue: options.rawValue | UNAuthorizationOptions.provisional.rawValue)
+            }
+            center.requestAuthorization(options: options) { (granted, error) in
+                Appboy.sharedInstance()?.pushAuthorization(fromUserNotificationCenter: granted)
+            }
+            UIApplication.shared.registerForRemoteNotifications()
+        } else {
+            let types : UIUserNotificationType = [.alert, .badge, .sound]
+            let setting : UIUserNotificationSettings = UIUserNotificationSettings(types:types, categories:nil)
+            UIApplication.shared.registerUserNotificationSettings(setting)
+            UIApplication.shared.registerForRemoteNotifications()
         }
-        center.requestAuthorization(options: options) { (granted, error) in
-          Appboy.sharedInstance()?.pushAuthorization(fromUserNotificationCenter: granted)
-        }
-        center.delegate = self
-        center.setNotificationCategories(ABKPushUtils.getAppboyUNNotificationCategorySet())
-        UIApplication.shared.registerForRemoteNotifications()
 
-        // Sample usage of unsafeInstance.  Note: startWithApiKey: MUST be called before calling unsafeInstance or an exception will be thrown.
-        // Note: this is a nonoptional alternative to sharedInstance()
-        Appboy.unsafeInstance().user.setCustomAttributeWithKey("unsafeCustomAttributeSwift", andStringValue: "unsafeCustomAttributeSwift value")
-
+        UNUserNotificationCenter.current().delegate = self
         return true
     }
     
@@ -43,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Appboy.sharedInstance()?.registerDeviceToken(deviceToken)
+        print(deviceToken.base64EncodedString())
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {

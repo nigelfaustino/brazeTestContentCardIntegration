@@ -25,7 +25,7 @@ class ContentCardDisplayCell: UITableViewCell {
 
     private let contentCardButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .gray
+        button.backgroundColor = .black
         button.setTitle("Content Cards", for: .normal)
         return button
     }()
@@ -38,7 +38,7 @@ class ContentCardDisplayCell: UITableViewCell {
 
     private let customContentCardButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .gray
+        button.backgroundColor = .black
         button.setTitle("Filtered Content Cards", for: .normal)
         return button
     }()
@@ -69,7 +69,6 @@ class ContentCardDisplayCell: UITableViewCell {
         customContentCardButton.left(10).right(10).bottom(10)
         contentCardButton.addTarget(self, action: #selector(contentCardPressed), for: .touchUpInside)
         customContentCardButton.addTarget(self, action: #selector(customContentCardPressed), for: .touchUpInside)
-
     }
     
     @objc private func contentCardPressed() {

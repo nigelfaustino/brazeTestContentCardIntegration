@@ -25,6 +25,7 @@
 		0BB344FC25B25AFC00F64F8A /* TableviewCellAlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB344FB25B25AFC00F64F8A /* TableviewCellAlertProtocol.swift */; };
 		0BB3450525B2624C00F64F8A /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3450425B2624C00F64F8A /* CustomTextField.swift */; };
 		0BB3450A25B762EC00F64F8A /* ContentCardDisplayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3450925B762EC00F64F8A /* ContentCardDisplayCell.swift */; };
+		0BB3451E25B76CA900F64F8A /* IAMCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3451D25B76CA900F64F8A /* IAMCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		0BB344FB25B25AFC00F64F8A /* TableviewCellAlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableviewCellAlertProtocol.swift; sourceTree = "<group>"; };
 		0BB3450425B2624C00F64F8A /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		0BB3450925B762EC00F64F8A /* ContentCardDisplayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCardDisplayCell.swift; sourceTree = "<group>"; };
+		0BB3451D25B76CA900F64F8A /* IAMCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAMCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 				0BB344F125B24FFF00F64F8A /* LoginCell.swift */,
 				0B2BE279257AC159003E6493 /* ClassicCardCell.swift */,
 				0BB3450925B762EC00F64F8A /* ContentCardDisplayCell.swift */,
+				0BB3451D25B76CA900F64F8A /* IAMCell.swift */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				0B8E060425758193009BF48E /* LoginVC.swift in Sources */,
 				0BB344F725B2532600F64F8A /* UserAnalyticsCell.swift in Sources */,
 				0BB344F225B24FFF00F64F8A /* LoginCell.swift in Sources */,
+				0BB3451E25B76CA900F64F8A /* IAMCell.swift in Sources */,
 				0BB3450A25B762EC00F64F8A /* ContentCardDisplayCell.swift in Sources */,
 				0BB344FC25B25AFC00F64F8A /* TableviewCellAlertProtocol.swift in Sources */,
 				0BB3450525B2624C00F64F8A /* CustomTextField.swift in Sources */,

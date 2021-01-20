@@ -20,8 +20,15 @@ class LoginCell: UITableViewCell {
     
     private let loginButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .darkGray
+        button.backgroundColor = .black
         button.setTitle("Login", for: .normal)
+        return button
+    }()
+    
+    private let currentUserButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .black
+        button.setTitle("Current User", for: .normal)
         return button
     }()
     
@@ -45,7 +52,7 @@ class LoginCell: UITableViewCell {
 
     private let addUserAliasButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .darkGray
+        button.backgroundColor = .black
         button.setTitle("Add Alias", for: .normal)
         return button
     }()
@@ -66,12 +73,14 @@ class LoginCell: UITableViewCell {
         backgroundColor = .white
         loginButton.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
         addUserAliasButton.addTarget(self, action: #selector(addAliasButtonPressed), for: .touchUpInside)
+        currentUserButton.addTarget(self, action: #selector(currentUserButtonPressed), for: .touchUpInside)
     }
     
     private func layoutViews() {
         subviews([
             titleLabel,
             loginButton,
+            currentUserButton,
             idTextField,
             userAliasTextField,
             userAliasLabelTextField,
@@ -82,7 +91,9 @@ class LoginCell: UITableViewCell {
         idTextField.centerHorizontally().left(10).right(10)
         loginButton.centerHorizontally().left(10).right(10)
         loginButton.Top == idTextField.Bottom + 10
-        userAliasTextField.Top == loginButton.Bottom + 10
+        currentUserButton.Top == loginButton.Bottom + 10
+        currentUserButton.left(10).right(10)
+        userAliasTextField.Top == currentUserButton.Bottom + 10
         userAliasTextField.left(10).right(10)
         userAliasLabelTextField.Top == userAliasTextField.Bottom + 10
         userAliasLabelTextField.left(10).right(10)
@@ -109,4 +120,10 @@ class LoginCell: UITableViewCell {
         userAliasTextField.text = ""
         userAliasLabelTextField.text = ""
     }
+    
+    @objc private func currentUserButtonPressed() {
+        guard let text = Appboy.sharedInstance()?.user.userID else { return }
+        delegate?.renderAlertViewController("Current User", "\(text)")
+    }
+
 }

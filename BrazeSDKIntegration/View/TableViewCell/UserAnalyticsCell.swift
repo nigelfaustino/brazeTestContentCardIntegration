@@ -91,6 +91,7 @@ class UserAnalyticsCell: UITableViewCell {
     
     @objc private func logAttributeButtonPressed() {
         guard let key = attributeKeyTextField.text, let value = attributeValueTextField.text else { return }
+        guard !key.isEmpty, !value.isEmpty else { return }
         Appboy.sharedInstance()?.user.setCustomAttributeWithKey(key, andStringValue: value)
         delegate?.renderAlertViewController("Set attribute", "Set custom attribute \(key) with value \(value)")
         attributeKeyTextField.text = ""
@@ -98,7 +99,7 @@ class UserAnalyticsCell: UITableViewCell {
     }
 
     @objc private func logEventButtonPressed() {
-        guard let event = eventTextfield.text else { return }
+        guard let event = eventTextfield.text, !event.isEmpty else { return }
         Appboy.sharedInstance()?.logCustomEvent(event)
         delegate?.renderAlertViewController("Logged Event", "Logged \(event)")
         eventTextfield.text = ""
