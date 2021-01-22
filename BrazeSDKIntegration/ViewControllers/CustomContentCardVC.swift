@@ -70,6 +70,7 @@ class CustomContentCardVC: UITableViewController {
             }
             return UITableViewCell()
         }()
+        Appboy.sharedInstance()?.logContentCardsDisplayed()
         card.logContentCardImpression()
         return cell
     }

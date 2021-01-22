@@ -12,6 +12,7 @@ class CustomTextField: UITextField {
     override init(frame: CGRect) {
         super.init(frame: frame)
         autocorrectionType = .no
+        autocapitalizationType = .none
         textAlignment = .center
         layer.borderWidth = 1
         layer.borderColor = UIColor.black.cgColor

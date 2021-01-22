@@ -21,25 +21,35 @@ class LoginVC: UIViewController {
         tableView.register(UserAnalyticsCell.self, forCellReuseIdentifier: UserAnalyticsCell.description())
         tableView.register(ContentCardDisplayCell.self, forCellReuseIdentifier: ContentCardDisplayCell.description())
         tableView.register(IAMCell.self, forCellReuseIdentifier: IAMCell.description())
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-        target: self,
-        action: #selector(dismissMyKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissMyKeyboard))
         view.addGestureRecognizer(tap)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.subviews(tableView)
-        tableView.left(0).right(0).top(0).bottom(0)
+        tableView.left(0).right(0).top(0)
+        tableView.Bottom == view.safeAreaLayoutGuide.Bottom
     }
     
-    @objc func dismissMyKeyboard(){
-    //endEditing causes the view (or one of its embedded text fields) to resign the first responder status.
-    //In short- Dismiss the active keyboard.
-    view.endEditing(true)
+// Private functions
+    @objc private func dismissMyKeyboard(){
+        view.endEditing(true)
     }
 
+    @objc private func keyboardWillShow(_ notification:Notification) {
+
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification:Notification) {
+        tableView.contentInset = .zero
+    }
 }
 
 extension LoginVC: UITableViewDataSource, TableviewCellAlertProtocol, ContentCardCellDelegate, UIScrollViewDelegate {
@@ -48,7 +58,6 @@ extension LoginVC: UITableViewDataSource, TableviewCellAlertProtocol, ContentCar
         if !filtered {
             let contentCards = ABKContentCardsTableViewController()
             contentCards.title = "Content Cards Title"
-            contentCards.disableUnreadIndicator = true
             navigationController?.pushViewController(contentCards, animated: true)
         } else if let text = text {
             let contentCards = CustomContentCardVC(text)
